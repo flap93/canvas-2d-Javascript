@@ -36,3 +36,49 @@ La posicion del jugador debe ser relativa con el tamano del juego (Game OBJECT) 
 con el objeto window utilizaremos uno de sus metodos ( requestAnimationFrame) que nos permitira iterar sobre las propiedades del player cada vez que se actualice.
 
 Esto lo haremos mediante los event de teclado que le anadiremos a nuestro GAME class.
+
+# OBJECT POOL QUE ES ?
+
+the Object Pool pattern and provide a simple example in JavaScript.
+
+The Object Pool pattern is a creational design pattern that uses a set of initialized objects kept ready to use - a "pool" - rather than allocating and destroying them on demand. This pattern is particularly useful when the cost of initializing a class instance is high and the rate of instantiation and destruction of a class is high.
+
+Here's a simple example of an Object Pool in JavaScript:
+
+class PooledObject {
+constructor() {
+// Initialize the object here
+}
+
+    // Add your methods here
+
+}
+
+class ObjectPool {
+constructor(maxSize) {
+this.maxSize = maxSize;
+this.pool = [];
+}
+
+    acquire() {
+        if (this.pool.length > 0) {
+            return this.pool.pop();
+        } else if (this.pool.length < this.maxSize) {
+            let object = new PooledObject();
+            return object;
+        } else {
+            throw new Error("No object available");
+        }
+    }
+
+    release(object) {
+        this.pool.push(object);
+    }
+
+}
+
+In this example, PooledObject is the object that we want to pool. The ObjectPool class maintains an array of PooledObjects. The acquire() method is used to get an object from the pool, and the release() method is used to return an object to the pool. If the pool is empty, a new PooledObject is created and returned. If the pool is full, an error is thrown.
+
+# Projectile class
+
+Esta clase es la que dibuja los projectiles cuando se disparan , tambien a tener en cuenta que esta clase recib las posiciones x , y de la clase jugador
