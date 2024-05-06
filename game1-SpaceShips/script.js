@@ -102,7 +102,39 @@ reset() {
 
 }
 
-class Enemy {}
+class Enemy {
+  constructor(game) {
+    this.game = game;
+    this.width = 50;
+    this.height = 100;
+    this.speed = 5;
+    this.x = this.game.width * 0.5 - this.width * 0.5;
+    this.y = this.game.height - this.height;
+
+  }
+
+  draw(context) {
+    context.strokeRect(this.x,this.y, this.width, this.height);
+    }
+
+  update() {}
+
+}
+
+class Wave {
+  constructor(game) {
+    this.game = game;
+    this.width = this.game.columns * this.game.enemySize;
+    this.height = this.game.rows * this.game.enemySize;
+    this.x = 0;
+    this.y = 0;
+
+  }
+
+  render(context) {
+    context.strokeRect(this.x,this.y, this.width, this.height);
+  }
+}
 
 
 class Game {
@@ -119,6 +151,13 @@ class Game {
     this.projectilesPool = [];
     this.numberOfProjectiles = 10;
     this.createProjectiles();
+    // cada ronda de enmigos que sale tendra 9 enemigos
+    this.columns = 3;
+    this.rows = 3;
+    this.enemySize = 60;
+
+    this.waves = [];
+    this.waves.push(new Wave(this));
     //event listeners
 
     window.addEventListener('keydown', e => {
@@ -153,6 +192,11 @@ class Game {
       projectile.update();
       projectile.draw(context);
     })
+
+    // dibuja los enemigos 
+    this.waves.forEach(wave => {
+      wave.render(context);
+    })
   }
 
 
@@ -182,6 +226,10 @@ class Game {
     const ctx = canvas.getContext('2d');
     canvas.width = 600;
     canvas.height = 800;
+    ctx.fillStyle='white';
+    // detertimina el color del enemigo 
+    ctx.strokeStyle='white';
+    ctx.lineWidth= 5;
 
     const game = new Game(canvas);
     // esta funcion hace que se repita/actualice la posicion y el movimiento del jugador
